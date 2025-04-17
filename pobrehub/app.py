@@ -44,6 +44,40 @@ def login():
             flash ("usuario ou senha incorretos")
     
     return "erro"
+
+@app.route('/buscar')
+def buscar():
+    return render_template('buscar.html')
+
+@app.route('/mensagens')
+def mensagens():
+    return render_template('mensagens.html')
+
+@app.route('/notificacoes')
+def notificacoes():
+    return render_template('notificacoes.html')
+
+@app.route('/perfil')        
+def perfil():
+    return render_template('perfil.html')
+
+@app.route('/criar',methods = ['GET','POST'])
+def criar():
+    if request.method == "GET":
+        return render_template('criar.html')
+    
+    elif request.method == "POST":
+        form = request.form
+        
+        if database.criar_postagem(form) == True:
+            return redirect (url_for('home'))
+        
+        else:
+            return "coroa"
+    
+    else:
+        return "vanderlei"
+        
         
 
 

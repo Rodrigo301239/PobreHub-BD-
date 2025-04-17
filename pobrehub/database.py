@@ -12,6 +12,8 @@ def criar_tabela():
     
     cursor.execute("CREATE table if not exists usuarios (email text primary key, nome text, senha text)")
     
+    cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text)")
+    
     conexao.commit()
     
 def cadastro(informacoes):
@@ -26,11 +28,23 @@ def cadastro(informacoes):
         print ("email já cadastrado, tente novamente")
         return False
     
-    senha_criptografada = generate_password_hash (informacoes['senha'])
-    cursor.execute("INSERT INTO usuarios (email,nome,senha) VALUES (?,?,?)", (informacoes['email'], informacoes['nome'], senha_criptografada))
+
+    cursor.execute("INSERT INTO usuarios (email,nome,senha) VALUES (?,?,?)", (informacoes['email'], informacoes['nome'], informacoes['senha']))
     
     conexao.commit()
     return True
+
+def criar_postagem(form):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    cursor.execute("INSERT INTO postagem (imagem,descricao,metodo) VALUES (?,?,?)", (form['imagem'], form['descricao'], form['metodo']))
+    
+    conexao.commit()
+    return True
+    
+    
+    
 
 
 
