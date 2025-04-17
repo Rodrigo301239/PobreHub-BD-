@@ -2,7 +2,7 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def conectar_banco():
-    conexao = sqlite3.connect("musicas.db")
+    conexao = sqlite3.connect("Banco.db")
     return conexao
 
 
@@ -18,7 +18,7 @@ def cadastro(informacoes):
     conexao = conectar_banco()
     cursor = conexao.cursor() 
     
-    cursor.execute("SELECT COUNT (email) FROM usuarios WHERE email=?", (informacoes['email'],))
+    cursor.execute("SELECT COUNT(email) FROM usuarios WHERE email=?", (informacoes['email'],))
     conexao.commit()
     
     quantidade_de_emails = cursor.fetchone()
@@ -26,8 +26,14 @@ def cadastro(informacoes):
         print ("email já cadastrado, tente novamente")
         return False
     
-    cursor.execute("INSERT INTO usuarios (email,nome,senha) VALUES (?,?,?)", (informacoes['email'], informacoes['nome'], informacoes['senha']))
+    senha_criptografada = generate_password_hash (informacoes['senha'])
+    cursor.execute("INSERT INTO usuarios (email,nome,senha) VALUES (?,?,?)", (informacoes['email'], informacoes['nome'], senha_criptografada))
     
+    conexao.commit()
+    return True
+
+
+
 if __name__ == '__main__':
     criar_tabela()
     

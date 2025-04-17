@@ -8,24 +8,28 @@
 </head>
 <body>
 
-<form action="/login" methods="POST">
-    <div class="container" id="login-box">
-        <h2>Entrar</h2>
-        <input type="text" placeholder="Usuário ou E-mail">
-        <input type="password" placeholder="Senha">
-        <button>Login</button>
-    <div class="toggle-link" onclick="showRegister()">Não tem conta? Cadastre-se</div>
-</div>
-</form>
+  
+<body class="login">
+  <form action="/login" method="POST">
+      <div class="container" id="login-box">
+          <h2>Entrar</h2>
+          <input id="email" type="email" name="email" placeholder="E-mail">
+          <input id="senha" type="password" name="senha" placeholder="Senha">
+          <button type="submit">Login</button>
+      <div class="toggle-link" onclick="showRegister()">Não tem conta? Cadastre-se</div>
+  </div>
+  </form>
+</body>
+  
 
 
 <body class="cadastro">
-    <form action="/cadastrar" methods="POST">
+    <form action="/cadastrar" method="POST">
         <div class="container" id="register-box" style="display: none;">
         <h2>Cadastrar</h2>
-        <input type="text" placeholder="Nome completo">
-        <input type="email" placeholder="E-mail">
-        <input type="password" placeholder="Senha">
+        <input type="nome" name="nome" placeholder="Nome completo">
+        <input type="email" name="email" placeholder="E-mail">
+        <input type="senha" name="senha" placeholder="Senha">
         <button>Cadastrar</button>
         <div class="toggle-link" onclick="showLogin()">Já tem conta? Faça login</div>
         </div>

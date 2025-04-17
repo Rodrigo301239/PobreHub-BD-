@@ -27,7 +27,7 @@
     color: #fff; /* Título branco */
   }
   
-  input[type="text"],
+  input[type="nome"],
   input[type="password"],
   input[type="email"] {
     width: 100%;
@@ -39,7 +39,7 @@
     color: white; /* Texto branco dentro dos inputs */
   }
   
-  input[type="text"]:focus,
+  input[type="nome"]:focus,
   input[type="password"]:focus,
   input[type="email"]:focus {
     border-color: #2575fc; /* Borda azul quando o input estiver em foco */
@@ -66,4 +66,122 @@
     cursor: pointer;
     display: inline-block;
   }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .page {
+    display: flex;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 80px;
+    height: 100vh;
+    background-color: #000;
+    border-right: 1px solid #262626;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 0;
+  }
+  
+  .logo {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    text-align: center;
+    transition: 0.2s;
+  }
+  
+  .nav-links a:hover {
+    font-weight: bold;
+  }
+  
+  /* Conteúdo principal */
+  .main-content {
+    margin-left: 100px;
+    width: 100%;
+    max-width: 700px;
+    margin-right: auto;
+    padding: 40px 20px;
+  }
+  
+  /* Stories */
+  .stories {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+  }
+  
+  .story {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ff2d55;
+    font-size: 12px;
+    color: #ccc;
+    flex-shrink: 0;
+  }
+  
+  /* Posts */
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .post {
+    background-color: #121212;
+    border: 1px solid #262626;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .post-header {
+    padding: 10px 15px;
+    border-bottom: 1px solid #262626;
+    font-weight: bold;
+  }
+  
+  .post img {
+    width: 100%;
+    display: block;
+  }
+  
+  .post-footer {
+    padding: 10px 15px;
+    color: #e0e0e0;
+  }
+  
+  .post-footer strong {
+    color: #fff;
+  }
+  
   
