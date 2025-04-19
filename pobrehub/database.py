@@ -38,9 +38,11 @@ def criar_postagem(form):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute("INSERT INTO postagem (imagem,descricao,metodo) VALUES (?,?,?)", (form['imagem'], form['descricao'], form['metodo']))
+    cursor.execute("INSERT INTO postagem (imagem,descricao,metodo) VALUES (?,?,?)", (form['imagem'], form['descricao'], form['metodo'],))
     
     conexao.commit()
+    cursor.close()
+    conexao.close()
     return True
     
     

@@ -38,9 +38,6 @@
           <br>
           <a href="/criar">➕ Criar</a>
           <br>
-          <br>
-          <br>
-          
           <a href="/perfil">👤 Perfil</a>
         </div>
         
@@ -64,28 +61,22 @@
 
       <!-- Postagens -->
       <section class="posts">
-
-        <div class="post">
-          <div class="post-header">
-            <span>👤 ana_fofa</span>
-          </div>
-          <img src="https://placekitten.com/600/400" alt="gato" />
-          <div class="post-footer">
-            <p><strong>ana_fofa</strong> Esse gato é um charme 😻</p>
-          </div>
+        {% for post in postagem %}
+        <div class="posts">
+            {% if post[1] %}
+                <img src="{{ post[1] }}" class="cover" alt="posts">
+            {% else %}
+                <img src="https://img.freepik.com/fotos-gratis/firewall-de-dados-em-preto-branco-de-notebook_1150-1733.jpg" class="post" alt="post">
+            {% endif %}
+            <h3>{{ post[2] }}</h3>
+            <div class="botoes">
+                <input type='radio' name="like" value="like"> Like
+                <input type='radio' name="dislike" value="dislike"> Dislike
+            </div>
         </div>
-
-        <div class="post">
-          <div class="post-header">
-            <span>👤 pedro_show</span>
-          </div>
-          <img src="https://placekitten.com/601/400" alt="gato2" />
-          <div class="post-footer">
-            <p><strong>pedro_show</strong> Relaxando no domingo 💤</p>
-          </div>
-        </div>
-
-      </section>
+        {% endfor %}
+    </section>
+          
     </main>
 
   </div>

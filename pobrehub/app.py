@@ -10,7 +10,14 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    # Apenas busca as postagens existentes, sem criar novas
+    conexao = database.conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM postagem ORDER BY id DESC")  # Adicionei ORDER BY
+    postagem = cursor.fetchall()
+    cursor.close()
+    conexao.close()
+    return render_template('home.html', postagem=postagem)
  
 @app.route('/cadastrar',methods = ["GET","POST"])
 def cadastrar():
@@ -70,7 +77,7 @@ def criar():
         form = request.form
         
         if database.criar_postagem(form) == True:
-            return redirect (url_for('home'))
+            return render_template('home.html')
         
         else:
             return "coroa"
