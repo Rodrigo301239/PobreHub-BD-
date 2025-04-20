@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Criar Postagem</title>
     <link rel="stylesheet" href="static/styles.css">
-    <h1>Dados  </h1>
 </head>
 <body>
-    <div class="informacoes">
-        <form action="/criar" method = "POST">
-            <input type='radio' id='metodo' name="metodo" value="A">patrocinio</h3>
-            <br>
-            <input type='radio' id='metodo' name="metodo" value="B">postagem</h3>
-            <br>
-            <input type='text' id='imagem' name='imagem' placeholder="Digite a imagem">
-            <br>
-            <input type='text' id='descricao' name='descricao' placeholder="Digite a descricao">
-            
-            <button type="submit">enviar</button>
-            
-        </form>
-       
+    <div class="create-container">
+        <h1 class="create-title">📝 Criar Nova Postagem</h1>
         
+        <form class="create-form" action="/criar" method="POST">
+            <div class="form-group">
+                <h3 class="form-subtitle">Tipo de Conteúdo:</h3>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="metodo" value="A" checked>
+                        <span class="radio-custom"></span>
+                        Patrocínio
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="metodo" value="B">
+                        <span class="radio-custom"></span>
+                        Postagem
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="imagem" class="form-label">URL da Imagem:</label>
+                <input type="url" id="imagem" name="imagem" class="form-input" placeholder="Cole o link da imagem" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao" class="form-label">Descrição:</label>
+                <textarea id="descricao" name="descricao" class="form-textarea" placeholder="Escreva sua descrição..." required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Publicar Postagem</button>
+        </form>
     </div>
-    
 </body>
-    
 </html>
