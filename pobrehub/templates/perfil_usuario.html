@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de {{ nome }}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+      
+        <nav class="nav-links">
+          <div class="opcoes">
+            <div class="logo">📸</div>
+            <a href="/home">🏠 Início</a>
+            <br>
+            <br>
+            <br>
+            <br>
+            <a href="/buscar">🔍 Buscar</a>
+            <br>
+            <br>
+            <br>
+            <br>
+            <a href="/mensagens">✉️ Mensagens</a>
+            <br>
+            <br>
+            <br>
+            <br>
+            <a href="/notificacoes">❤️ Notificações</a>
+            <br>
+            <br>
+            <br>
+            <br>
+            <a href="/criar">➕ Criar</a>
+            <br>
+            <a href="/perfil">👤 Perfil</a>
+          </div>
+          
+        </nav>
+      </aside>
+
+  <div class="perfil-container">
+    <div class="perfil-header">
+      <!-- Imagem de Perfil e Informações -->
+      <div class="perfil-info">
+        <div class="perfil-imagem">
+          <img src="https://via.placeholder.com/150" alt="Imagem de perfil">
+        </div>
+        <div class="perfil-details">
+          <h1>{{ nome }}</h1>
+          <div class="perfil-stats">
+            <span><strong>200</strong> Seguidores</span>
+            <span><strong>180</strong> Seguindo</span>
+          </div>
+          <button class="editar-btn">Editar Perfil</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

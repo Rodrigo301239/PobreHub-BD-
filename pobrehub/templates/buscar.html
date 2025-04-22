@@ -43,7 +43,12 @@
   <div class="container">
     <h1>🔍 Buscar Usuários</h1>
     
-    <input type="text" placeholder="Digite o nome do usuário..." class="search-input">
+    <form action="/buscar_usuario" method="GET">
+      <input type="text" name="nome" placeholder="Digite o nome do usuário..." class="search-input">
+      <button type="submit" class="search-button">Buscar</button>
+    </form>
+
+
 
     
   </div>

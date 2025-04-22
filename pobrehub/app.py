@@ -56,6 +56,37 @@ def login():
 def buscar():
     return render_template('buscar.html')
 
+@app.route('/buscar_usuario')
+def buscar_usuario():
+    nome_usuario = request.args.get('nome')
+    if not nome_usuario:
+        return "Nome não fornecido."
+
+    nome_usuario = nome_usuario.strip()  # remove espaços extras
+
+    conexao = database.conectar_banco()
+    cursor = conexao.cursor()
+
+    # Consulta ignorando maiúsculas/minúsculas (opcional)
+    cursor.execute("SELECT nome FROM usuarios WHERE LOWER(nome) = LOWER(?)", (nome_usuario.lower(),))
+    resultado = cursor.fetchone()
+    cursor.execute("SELECT id FROM usuarios WHERE id = ?", (1,))
+    id = cursor.fetchone()
+    conexao.close()
+
+    if resultado and id:
+        return redirect(url_for('perfil.html'))
+
+    if resultado:
+        return redirect (url_for('perfil_usuario', nome=resultado[0]))
+    else:
+        return f"usuário '{nome_usuario}' não encontrado"
+
+@app.route('/perfil/<nome>')
+def perfil_usuario(nome):
+    return render_template('perfil_usuario.html', nome=nome)
+
+
 @app.route('/mensagens')
 def mensagens():
     return render_template('mensagens.html')
@@ -77,13 +108,14 @@ def criar():
         form = request.form
         
         if database.criar_postagem(form) == True:
-            return render_template('home.html')
+            return redirect(url_for('home'))
         
         else:
             return "coroa"
     
     else:
         return "vanderlei"
+
         
         
 

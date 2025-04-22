@@ -10,9 +10,9 @@ def criar_tabela():
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute("CREATE table if not exists usuarios (email text primary key, nome text, senha text)")
+    cursor.execute("CREATE table if not exists usuarios (id integer primary key, email text primary key, nome text, senha text)")
     
-    cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text)")
+    cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer, deslike integer)")
     
     conexao.commit()
     
