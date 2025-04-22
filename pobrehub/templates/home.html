@@ -33,9 +33,6 @@
           <br>
           <a href="/notificacoes">❤️ Notificações</a>
           <br>
-          <br>
-          <br>
-          <br>
           <a href="/criar">➕ Criar</a>
           <br>
           <a href="/perfil">👤 Perfil</a>
@@ -64,12 +61,14 @@
         <!-- Postagens -->
         <section class="posts">
           {% for post in postagem %}
+          <button class="bot" onclick="window.location.href='/excluir_post/{{post[0]}}'">Excluir</button>
           <div class="post">
               {% if post[1] %}
                   <img src="{{ post[1] }}" class="cover" alt="posts">
               {% else %}
                   <img src="https://img.freepik.com/fotos-gratis/firewall-de-dados-em-preto-branco-de-notebook_1150-1733.jpg" class="post" alt="post">
               {% endif %}
+              
               <h3>{{ post[2] }}</h3>
               <div class="botoes">
                 <label>
@@ -80,7 +79,7 @@
                 </label>
               </div>
           </div>
-          {% endfor %}
+            {% endfor %}
         </section>
           
     </main>

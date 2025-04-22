@@ -10,7 +10,7 @@ def criar_tabela():
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute("CREATE table if not exists usuarios (id integer primary key, email text primary key, nome text, senha text)")
+    cursor.execute("CREATE table if not exists usuarios (id integer default 0, email text primary key, nome text, senha text)")
     
     cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer, deslike integer)")
     
@@ -44,6 +44,17 @@ def criar_postagem(form):
     cursor.close()
     conexao.close()
     return True
+
+def excluir_post(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute("DELETE from postagem WHERE id = ?", (id,))
+    conexao.commit()
+
+    return True
+
+
     
     
     

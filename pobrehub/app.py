@@ -116,6 +116,14 @@ def criar():
     else:
         return "vanderlei"
 
+
+@app.route('/excluir_post/<int:id>')
+def excluir_post(id):
+    
+    if database.excluir_post(id) == True:
+        return redirect(url_for('home'))
+
+
         
         
 
