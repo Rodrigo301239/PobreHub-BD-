@@ -10,7 +10,7 @@ def criar_tabela():
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute("CREATE table if not exists usuarios (id integer default 0, email text primary key, nome text, senha text, imagem text)")
+    cursor.execute("CREATE table if not exists usuarios (id integer primary key, email text, nome text, senha text, imagem text)")
     
     cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer, deslike integer)")
     

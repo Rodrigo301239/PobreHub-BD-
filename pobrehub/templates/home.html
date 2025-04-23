@@ -35,9 +35,11 @@
           <br>
           <a href="/criar">➕ Criar</a>
           <br>
-          {% for id in usuarios %}
-            <a href="/perfil/{{id[0]}}">👤 Perfil</a>
-          {% endfor %}
+          <form method="POST" action="/perfil/{{ usuario }}" class="buttom2">
+            <button type="submit">👤 Ver Perfil</button>
+          </form>
+          
+          
           <br>
           <a href="/logout">🚪 Sair</a>
         </div>

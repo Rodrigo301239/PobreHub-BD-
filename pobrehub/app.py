@@ -10,14 +10,17 @@ def index():
 
 @app.route('/home')
 def home():
-    # Apenas busca as postagens existentes, sem criar novas
+   
     conexao = database.conectar_banco()
     cursor = conexao.cursor()
-    cursor.execute("SELECT * FROM postagem ORDER BY id DESC")  # Adicionei ORDER BY
+    
+    cursor.execute("SELECT * FROM postagem ORDER BY id DESC") 
     postagem = cursor.fetchall()
+    
+    
     cursor.close()
     conexao.close()
-    return render_template('home.html', postagem=postagem)
+    return render_template('home.html', postagem=postagem, usuario=session['id'])
  
 @app.route('/cadastrar',methods = ["GET","POST"])
 def cadastrar():
@@ -43,8 +46,10 @@ def login():
         usuario = cursor.fetchone()
 
         conexao.close()
-        if usuario and usuario[2] == senha:
-            session['usuario'] = usuario[0]
+        print (usuario)
+        if usuario and usuario[3] == senha:
+            session['id'] = usuario[0]
+            session['email'] = usuario[1]
             return redirect (url_for('home'))
         
         else:
@@ -62,25 +67,22 @@ def buscar_usuario():
     if not nome_usuario:
         return "Nome não fornecido."
 
-    nome_usuario = nome_usuario.strip()  # remove espaços extras
+    nome_usuario = nome_usuario.strip()
 
     conexao = database.conectar_banco()
     cursor = conexao.cursor()
 
-    # Consulta ignorando maiúsculas/minúsculas (opcional)
-    cursor.execute("SELECT nome FROM usuarios WHERE LOWER(nome) = LOWER(?)", (nome_usuario.lower(),))
+    # Buscar nome e ID ao mesmo tempo
+    cursor.execute("SELECT id, nome FROM usuarios WHERE LOWER(nome) = LOWER(?)", (nome_usuario.lower(),))
     resultado = cursor.fetchone()
-    cursor.execute("SELECT id FROM usuarios WHERE id = ?", (1,))
-    id = cursor.fetchone()
     conexao.close()
 
-    if resultado and id:
-        return redirect(url_for('perfil.html'))
-
     if resultado:
-        return redirect (url_for('perfil_usuario', nome=resultado[0]))
+        id_usuario = resultado[0]
+        return redirect(url_for('perfil', id=id_usuario))  # 👈 Rota correta
     else:
-        return f"usuário '{nome_usuario}' não encontrado"
+        return f"Usuário '{nome_usuario}' não encontrado."
+
 
 @app.route('/perfil/<nome>')
 def perfil_usuario(nome):
@@ -95,16 +97,35 @@ def mensagens():
 def notificacoes():
     return render_template('notificacoes.html')
 
-@app.route('/perfil/<int:id>')        
-def perfil():
+@app.route('/perfil/<int:id>',methods = ['GET','POST'])        
+def perfil(id):
+    
     conexao = database.conectar_banco()
     cursor = conexao.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE id = ?", (id,))
     perfil_usuario = cursor.fetchone()
     conexao.close()
     
-    if perfil_usuario:
-        return render_template('perfil.html', perfil=perfil_usuario)
+    if request.method == "POST" and perfil_usuario:
+        perfil_dict = {
+            'id': perfil_usuario[0],
+            'email': perfil_usuario[1],
+            'nome': perfil_usuario[2],
+            'senha': perfil_usuario[3],
+            'imagem': perfil_usuario[4]}
+           
+                
+        return render_template('perfil.html', perfil=perfil_dict, agua = True)
+    
+    elif perfil_usuario:
+        perfil_dict = {
+            'id': perfil_usuario[0],
+            'email': perfil_usuario[1],
+            'nome': perfil_usuario[2],
+            'senha': perfil_usuario[3],
+            'imagem': perfil_usuario[4]}   
+        return render_template('perfil.html', perfil=perfil_dict)
+
     else:
         return f"Perfil com ID {id} não encontrado."
     
@@ -137,6 +158,10 @@ def excluir_post(id):
 def logout():
     session.pop('usuario', None)
     return redirect(url_for('login'))
+
+@app.route('/editar_perfil')
+def editar_perfil():
+    return redirect(url_for('editar_perfil'))
 
 
         
