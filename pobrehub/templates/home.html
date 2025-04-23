@@ -35,12 +35,16 @@
           <br>
           <a href="/criar">➕ Criar</a>
           <br>
-          <a href="/perfil">👤 Perfil</a>
+          {% for id in usuarios %}
+            <a href="/perfil/{{id[0]}}">👤 Perfil</a>
+          {% endfor %}
+          <br>
+          <a href="/logout">🚪 Sair</a>
         </div>
         
       </nav>
     </aside>
-
+  
     <!-- Conteúdo Principal -->
     <main class="main-content">
       <!-- Stories -->

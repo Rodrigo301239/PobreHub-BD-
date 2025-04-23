@@ -26,7 +26,7 @@ def cadastrar():
         return render_template('index.html')
     
     else:
-        return ("erro")
+        return ("erro1")
 
 
 @app.route('/login',methods = ['GET','POST'])   
@@ -50,7 +50,7 @@ def login():
         else:
             flash ("usuario ou senha incorretos")
     
-    return "erro"
+    return render_template('index.html')
 
 @app.route('/buscar')
 def buscar():
@@ -95,9 +95,19 @@ def mensagens():
 def notificacoes():
     return render_template('notificacoes.html')
 
-@app.route('/perfil')        
+@app.route('/perfil/<int:id>')        
 def perfil():
-    return render_template('perfil.html')
+    conexao = database.conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM usuarios WHERE id = ?", (id,))
+    perfil_usuario = cursor.fetchone()
+    conexao.close()
+    
+    if perfil_usuario:
+        return render_template('perfil.html', perfil=perfil_usuario)
+    else:
+        return f"Perfil com ID {id} não encontrado."
+    
 
 @app.route('/criar',methods = ['GET','POST'])
 def criar():
@@ -122,6 +132,11 @@ def excluir_post(id):
     
     if database.excluir_post(id) == True:
         return redirect(url_for('home'))
+    
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    return redirect(url_for('login'))
 
 
         

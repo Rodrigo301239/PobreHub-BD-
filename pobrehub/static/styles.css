@@ -17,7 +17,13 @@ body {
 .page {
   display: flex;
   min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1px;
 }
+
 
 .sidebar {
   position: fixed;
@@ -76,7 +82,7 @@ body {
   gap: 15px;
   margin-bottom: 30px;
   overflow-x: auto;
-  padding: 15px 0;
+  padding: 10px 0;
 }
 
 .story {
@@ -150,9 +156,11 @@ body {
 }
 
 body {
-  background-color: #121212;
-  font-family: 'Segoe UI', sans-serif;
-  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .mensagens-container {
@@ -478,10 +486,8 @@ a {
 
 body, html {
   height: 100%;
-  font-family: Arial, sans-serif;
-  display: flex;
-  background-color: #181818;
-  color: #fff;
+  margin: 0;
+  padding: 0;
 }
 
 .perfil-container {

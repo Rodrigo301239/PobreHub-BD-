@@ -10,10 +10,11 @@ def criar_tabela():
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute("CREATE table if not exists usuarios (id integer default 0, email text primary key, nome text, senha text)")
+    cursor.execute("CREATE table if not exists usuarios (id integer default 0, email text primary key, nome text, senha text, imagem text)")
     
     cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer, deslike integer)")
     
+    cursor.execute("CREATE table if not exists mensagens(id integer primary key, imagem text, hora text, mensagem text, email text)")
     conexao.commit()
     
 def cadastro(informacoes):
@@ -53,6 +54,7 @@ def excluir_post(id):
     conexao.commit()
 
     return True
+
 
 
     
