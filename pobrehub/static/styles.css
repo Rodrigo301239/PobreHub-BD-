@@ -719,6 +719,40 @@ button:hover {
   border-radius: 8px;
   object-fit: cover;
 }
+.botoes {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.botoes input[type="radio"] {
+  display: none; /* esconde o botão original */
+}
+
+.botoes label {
+  padding: 10px 20px;
+  border: 2px solid #800020; /* vinho */
+  border-radius: 30px;
+  background-color: white;
+  color: #800020;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.botoes input[type="radio"]:checked + label {
+  background-color: #800020;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(128, 0, 32, 0.4);
+}
+
+.botoes label:hover {
+  background-color: #f3e6eb;
+}
+
+
 
 
 

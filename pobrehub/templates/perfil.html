@@ -51,26 +51,16 @@
             <div><strong>{{perfil.seguidores}}</strong><span>Seguidores</span></div>
             <div><strong>{{perfil.seguindo}}</strong><span>Seguindo</span></div>
           </div>
-          
-          
-            <div class="imagens-postagem">
-              <h3>Imagens Postadas:</h3>
-              <div class="imagens-container">
-                
-                  <img src="{{ extra }}" alt="Imagem Postada" class="imagem-postada">
-                
-              </div>
-            </div>
-          </div>
-          
 
-          {% if agua == True %}
-            <a href="/editar_perfil/{{perfil.id}}">
-              <button class="btn-editar">Editar Perfil</button>
+          {% if verificacao[0] == session['email'] %}
+            <a href="/editar_perfil/{{ perfil.id }}">
+                <button class="btn-editar">Editar Perfil</button>
             </a>
-          {%endif%}
-        
+          {% endif %}
       </div>
     </header>
+
+  
+  </div>
 </body>
 </html>

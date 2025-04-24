@@ -103,40 +103,38 @@ def perfil(id):
     cursor = conexao.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE id = ?", (id,))
     perfil_usuario = cursor.fetchone()
-    conexao.close()
+    
     
     if request.method == "POST" and perfil_usuario:
         extra = request.form.get('extra')
 
         perfil_dict = {
             'id': perfil_usuario[0],
-            'email': perfil_usuario[1],
             'nome': perfil_usuario[2],
-            'senha': perfil_usuario[3],
+            'imagem': perfil_usuario[4],
+            'descricao': perfil_usuario[5],
+            'seguidores': perfil_usuario[6],
+            'seguindo': perfil_usuario[7],
+            'postagem': perfil_usuario[8]
             }
-           
-                
-        return render_template('perfil.html', perfil=perfil_dict, agua = True, extra = extra)
-    
-    elif perfil_usuario:
-        extra = request.form.get('extra')
         
+        verificacao,fotos = database.selecionar(id)
+        
+        return render_template('perfil.html', perfil=perfil_dict, extra = extra, verificacao=verificacao, fotos=fotos)
+
+    elif request.method == "GET":
+        extra = request.args.get('extra')
+
         perfil_dict = {
             'id': perfil_usuario[0],
-            'email': perfil_usuario[1],
             'nome': perfil_usuario[2],
-            'senha': perfil_usuario[3],
             'imagem': perfil_usuario[4],
             'descricao': perfil_usuario[5],
             'seguidores': perfil_usuario[6],
             'seguindo': perfil_usuario[7]
-
-            }   
-        return render_template('perfil.html', perfil=perfil_dict, extra = extra)
-
-    else:
-        return f"Perfil com ID {id} não encontrado."
-    
+        }
+        verificacao = database.selecionar(id)
+        return render_template('perfil.html', perfil=perfil_dict, extra=extra, verificacao=verificacao)
 
 @app.route('/criar',methods = ['GET','POST'])
 def criar():
@@ -172,7 +170,8 @@ def editar_perfil(id):
     if request.method == "POST":
         form = request.form
         if database.editar_perfil(form, id) == True:
-            return render_template('perfil.html', id=id, agua = True)
+            return redirect(url_for('perfil', id=id))
+
 
 
     return render_template('editar.html', id=id)

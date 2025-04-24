@@ -80,13 +80,14 @@
               
               <h3>{{ post[2] }}</h3>
               <div class="botoes">
-                <label>
-                  <input type="radio" name="like" value="like" checked> Like
-                </label>
-                <label>
-                  <input type="radio" name="like" value="deslike" checked> Deslike
-                </label>
+                <input type="radio" id="like{{post[0]}}" name="like{{post[0]}}" value="like">
+                <label for="like{{post[0]}}">👍 Like</label>
+              
+                <input type="radio" id="deslike{{post[0]}}" name="like{{post[0]}}" value="deslike">
+                <label for="deslike{{post[0]}}">👎 Deslike</label>
               </div>
+              
+              
           </div>
             {% endfor %}
         </section>
@@ -97,3 +98,5 @@
 
 </body>
 </html>
+
+
