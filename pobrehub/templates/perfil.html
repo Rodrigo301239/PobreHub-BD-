@@ -39,18 +39,33 @@
   
   <div class="perfil-container">
     <header class="perfil-topo">
-      <img src="https://via.placeholder.com/100" alt="Foto de perfil" class="foto-perfil">
+      {% if perfil %}
+        <img src="{{ perfil.imagem }}" alt="Foto de perfil" class="foto-perfil">
+      {% else %}
+        <p>Perfil não encontrado.</p>
+      {% endif %}
       <div class="info-usuario">
           <h2>{{perfil.nome}}</h2>
-          <p>CEO do PobreHUB</p>
+            <p>{{perfil.descricao}}</p>
           <div class="estatisticas">
-            <div><strong>128</strong><span>Publicações</span></div>
-            <div><strong>4.302</strong><span>Seguidores</span></div>
-            <div><strong>321</strong><span>Seguindo</span></div>
+            <div><strong>{{perfil.seguidores}}</strong><span>Seguidores</span></div>
+            <div><strong>{{perfil.seguindo}}</strong><span>Seguindo</span></div>
           </div>
+          
+          
+            <div class="imagens-postagem">
+              <h3>Imagens Postadas:</h3>
+              <div class="imagens-container">
+                
+                  <img src="{{ extra }}" alt="Imagem Postada" class="imagem-postada">
+                
+              </div>
+            </div>
+          </div>
+          
 
           {% if agua == True %}
-            <a href="/editar_perfil">
+            <a href="/editar_perfil/{{perfil.id}}">
               <button class="btn-editar">Editar Perfil</button>
             </a>
           {%endif%}

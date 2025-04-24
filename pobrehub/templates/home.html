@@ -36,6 +36,9 @@
           <a href="/criar">➕ Criar</a>
           <br>
           <form method="POST" action="/perfil/{{ usuario }}" class="buttom2">
+            {% for post in postagem %}
+              <input type="hidden" name="extra" value="{{ post[1] }}">
+            {%endfor%}
             <button type="submit">👤 Ver Perfil</button>
           </form>
           

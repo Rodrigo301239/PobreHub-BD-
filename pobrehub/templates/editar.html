@@ -9,18 +9,11 @@
 <body>
   <div class="container">
     <h1>Editar Perfil</h1>
-    <form action="/salvar_edicao" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="foto">Foto de Perfil</label>
-        <input type="file" id="foto" name="foto">
-      </div>
-
-      <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" placeholder="Seu nome">
-      </div>
-
-      <button type="submit" class="btn">Salvar Alterações</button>
+    <form action="/editar_perfil/{{ id }}" method="POST">
+      <input type="text" name="nome" placeholder="Nome">
+      <input type="text" name="descricao" placeholder="Descrição">
+      <input type="text" name="imagem" placeholder="URL da Imagem">
+      <button type="submit">Salvar</button>
     </form>
   </div>
 </body>

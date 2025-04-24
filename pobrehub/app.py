@@ -99,7 +99,6 @@ def notificacoes():
 
 @app.route('/perfil/<int:id>',methods = ['GET','POST'])        
 def perfil(id):
-    
     conexao = database.conectar_banco()
     cursor = conexao.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE id = ?", (id,))
@@ -107,24 +106,33 @@ def perfil(id):
     conexao.close()
     
     if request.method == "POST" and perfil_usuario:
+        extra = request.form.get('extra')
+
         perfil_dict = {
             'id': perfil_usuario[0],
             'email': perfil_usuario[1],
             'nome': perfil_usuario[2],
             'senha': perfil_usuario[3],
-            'imagem': perfil_usuario[4]}
+            }
            
                 
-        return render_template('perfil.html', perfil=perfil_dict, agua = True)
+        return render_template('perfil.html', perfil=perfil_dict, agua = True, extra = extra)
     
     elif perfil_usuario:
+        extra = request.form.get('extra')
+        
         perfil_dict = {
             'id': perfil_usuario[0],
             'email': perfil_usuario[1],
             'nome': perfil_usuario[2],
             'senha': perfil_usuario[3],
-            'imagem': perfil_usuario[4]}   
-        return render_template('perfil.html', perfil=perfil_dict)
+            'imagem': perfil_usuario[4],
+            'descricao': perfil_usuario[5],
+            'seguidores': perfil_usuario[6],
+            'seguindo': perfil_usuario[7]
+
+            }   
+        return render_template('perfil.html', perfil=perfil_dict, extra = extra)
 
     else:
         return f"Perfil com ID {id} não encontrado."
@@ -156,12 +164,18 @@ def excluir_post(id):
     
 @app.route('/logout')
 def logout():
-    session.pop('usuario', None)
+    session.clear()
     return redirect(url_for('login'))
 
-@app.route('/editar_perfil')
-def editar_perfil():
-    return redirect(url_for('editar_perfil'))
+@app.route('/editar_perfil/<int:id>',methods = ['GET','POST'])
+def editar_perfil(id):
+    if request.method == "POST":
+        form = request.form
+        if database.editar_perfil(form, id) == True:
+            return render_template('perfil.html', id=id, agua = True)
+
+
+    return render_template('editar.html', id=id)
 
 
         

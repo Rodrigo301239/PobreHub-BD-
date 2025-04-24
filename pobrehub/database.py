@@ -10,7 +10,7 @@ def criar_tabela():
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute("CREATE table if not exists usuarios (id integer primary key, email text, nome text, senha text, imagem text)")
+    cursor.execute("CREATE table if not exists usuarios (id integer primary key, email text, nome text, senha text,imagem text default 'none', descricao text default 'none', seguidores integer default 0, seguindo integer default 0)")
     
     cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer, deslike integer)")
     
@@ -31,6 +31,8 @@ def cadastro(informacoes):
     
 
     cursor.execute("INSERT INTO usuarios (email,nome,senha) VALUES (?,?,?)", (informacoes['email'], informacoes['nome'], informacoes['senha']))
+    
+
     
     conexao.commit()
     return True
@@ -54,6 +56,15 @@ def excluir_post(id):
     conexao.commit()
 
     return True
+
+def editar_perfil(perfil, usuario_id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute("UPDATE usuarios SET nome = ?,descricao = ?,imagem = ? WHERE id = ?",(perfil['nome'],perfil['descricao'],perfil['imagem'],usuario_id))
+    conexao.commit()
+    return True
+
 
 
 
