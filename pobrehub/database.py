@@ -12,7 +12,7 @@ def criar_tabela():
     
     cursor.execute("CREATE table if not exists usuarios (id integer primary key, email text, nome text, senha text,imagem text default 'none', descricao text default 'none', seguidores integer default 0, seguindo integer default 0,publicacao text default 'none')")
     
-    cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer, deslike integer)")
+    cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer default 0, deslike integer default 0)")
     
     cursor.execute("CREATE table if not exists mensagens(id integer primary key, imagem text, hora text, mensagem text, email text)")
     conexao.commit()
@@ -77,6 +77,24 @@ def selecionar (id):
     
     return verificacao, fotos
     
+    
+def likes(id,like):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    cursor.execute("UPDATE postagem SET like = like + 1 WHERE id = ?", (id,))
+    
+    conexao.commit()
+    return True
+
+def deslikes(id,like):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    cursor.execute("UPDATE postagem SET deslike = deslike + 1 WHERE id = ?", (id,))
+    
+    conexao.commit()
+    return True
 
 
 

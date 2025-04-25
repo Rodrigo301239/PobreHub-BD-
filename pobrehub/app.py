@@ -176,6 +176,25 @@ def editar_perfil(id):
 
     return render_template('editar.html', id=id)
 
+@app.route('/like',methods = ['POST'])
+def likes():
+    post_id = request.form.get('post_id')  # Pega o ID do post
+    like_value = request.form.get('like')  # Pega o valor de like/deslike
+    
+    print("Post ID:", post_id)
+    print("Like/Deslike:", like_value)
+        
+    if like_value == "like":
+        if database.likes(post_id,like_value) == True:
+            return redirect(url_for('home'))
+    elif like_value == "deslike":
+        if database.deslikes(post_id,like_value) == True:
+            return redirect(url_for('home'))
+    
+    return "Erro ao registrar like/deslike", 400
+    
+    
+
 
         
         

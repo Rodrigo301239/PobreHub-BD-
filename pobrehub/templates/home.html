@@ -79,15 +79,16 @@
               {% endif %}
               
               <h3>{{ post[2] }}</h3>
-              <div class="botoes">
-                <input type="radio" id="like{{post[0]}}" name="like{{post[0]}}" value="like">
-                <label for="like{{post[0]}}">👍 Like</label>
-              
-                <input type="radio" id="deslike{{post[0]}}" name="like{{post[0]}}" value="deslike">
-                <label for="deslike{{post[0]}}">👎 Deslike</label>
-              </div>
-              
-              
+
+              <form method="POST" class="like-form" id="like-form" data-post-id="{{ post[0] }}">
+                <div class="botoes">
+                  <input type="radio" id="like{{post[0]}}" name="like{{post[0]}}" value="like">
+                  <label for="like{{post[0]}}">👍 Like</label>
+                
+                  <input type="radio" id="deslike{{post[0]}}" name="like{{post[0]}}" value="deslike">
+                  <label for="deslike{{post[0]}}">👎 Deslike</label>
+                </div>
+              </form>
           </div>
             {% endfor %}
         </section>
@@ -95,7 +96,7 @@
     </main>
 
   </div>
-
+  <script src="{{ url_for('static', filename='likes.js') }}"></script>
 </body>
 </html>
 
