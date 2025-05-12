@@ -79,7 +79,7 @@ def buscar_usuario():
 
     if resultado:
         id_usuario = resultado[0]
-        return redirect(url_for('perfil', id=id_usuario))  # 👈 Rota correta
+        return redirect(url_for('perfil', id=id_usuario)) 
     else:
         return f"Usuário '{nome_usuario}' não encontrado."
 
@@ -97,17 +97,21 @@ def mensagens():
 def notificacoes():
     return render_template('notificacoes.html')
 
-@app.route('/perfil/<int:id>',methods = ['GET','POST'])        
+@app.route('/perfil/<int:id>', methods=['GET', 'POST'])        
 def perfil(id):
     conexao = database.conectar_banco()
     cursor = conexao.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE id = ?", (id,))
     perfil_usuario = cursor.fetchone()
-    
-    
-    if request.method == "POST" and perfil_usuario:
-        extra = request.form.get('extra')
 
+    if not perfil_usuario:
+        return "Perfil não encontrado"
+
+    adm = session.get('id') == id
+    seguindo = session.get('id') != id  # Só exibe botão de seguir se não for o próprio perfil
+
+    if request.method == "POST":
+        extra = request.form.get('extra')
         perfil_dict = {
             'id': perfil_usuario[0],
             'nome': perfil_usuario[2],
@@ -116,11 +120,42 @@ def perfil(id):
             'seguidores': perfil_usuario[6],
             'seguindo': perfil_usuario[7],
             'postagem': perfil_usuario[8]
-            }
-        
-        verificacao,fotos = database.selecionar(id)
-        
-        return render_template('perfil.html', perfil=perfil_dict, extra = extra, verificacao=verificacao, fotos=fotos)
+        }
+
+        verificacao, fotos = database.selecionar(id)
+
+        return render_template(
+            'perfil.html',
+            perfil=perfil_dict,
+            extra=extra,
+            verificacao=verificacao,
+            fotos=fotos,
+            adm=adm,
+            seguindo=seguindo
+        )
+
+    elif request.method == "GET":
+        extra = request.args.get('extra')
+        perfil_dict = {
+            'id': perfil_usuario[0],
+            'nome': perfil_usuario[2],
+            'imagem': perfil_usuario[4],
+            'descricao': perfil_usuario[5],
+            'seguidores': perfil_usuario[6],
+            'seguindo': perfil_usuario[7]
+        }
+
+        verificacao, fotos = database.selecionar(id)
+
+        return render_template(
+            'perfil.html',
+            perfil=perfil_dict,
+            extra=extra,
+            verificacao=verificacao,
+            fotos=fotos,
+            adm=adm,
+            seguindo=seguindo
+        )
 
     elif request.method == "GET":
         extra = request.args.get('extra')
@@ -192,6 +227,25 @@ def likes():
             return redirect(url_for('home'))
     
     return "Erro ao registrar like/deslike", 400
+
+@app.route('/seguir/<int:id>',methods = ['GET','POST'])
+def seguir(id):
+    id_user = request.form["id_user"]
+    if request.method == "POST":
+        if database.seguir(id,id_user) == True:
+            return redirect(url_for('perfil', id=id))
+        else:
+            return "ERRO"
+        
+@app.route('/parar_seguir/<int:id>',methods = ['GET','POST'])
+def parar_seguir(id):
+    id_user = request.form["id_user"]
+    if request.method == "POST":
+        if database.parar_seguir(id,id_user) == True:
+            return redirect(url_for('perfil', id=id))
+        else:
+            return "ERRO"
+    
     
     
 

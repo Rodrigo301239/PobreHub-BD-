@@ -15,6 +15,8 @@ def criar_tabela():
     cursor.execute("CREATE table if not exists postagem(id integer primary key, imagem text, descricao text, metodo text, like integer default 0, deslike integer default 0)")
     
     cursor.execute("CREATE table if not exists mensagens(id integer primary key, imagem text, hora text, mensagem text, email text)")
+
+    cursor.execute("CREATE table if not exists rastreador(id integer primary key,email_perfil text default 'none', id_dequemvocesegue integer default '0', id_dequemseguevoce integer default '0')")
     conexao.commit()
     
 def cadastro(informacoes):
@@ -31,11 +33,20 @@ def cadastro(informacoes):
     
 
     cursor.execute("INSERT INTO usuarios (email,nome,senha) VALUES (?,?,?)", (informacoes['email'], informacoes['nome'], informacoes['senha']))
-    
 
     
     conexao.commit()
+
+    cursor.execute("SELECT id FROM usuarios WHERE email = ?", (informacoes['email'],))
+    id = cursor.fetchone()
+
+    id_usuario = id[0]
+
+    cursor.execute("UPDATE rastreador SET email_perfil = ? WHERE id = ?", (informacoes['email'],id_usuario,))
+
+    conexao.commit()
     return True
+
 
 def criar_postagem(form):
     conexao = conectar_banco()
@@ -85,6 +96,7 @@ def likes(id,like):
     cursor.execute("UPDATE postagem SET like = like + 1 WHERE id = ?", (id,))
     
     conexao.commit()
+    conexao.close()
     return True
 
 def deslikes(id,like):
@@ -94,7 +106,37 @@ def deslikes(id,like):
     cursor.execute("UPDATE postagem SET deslike = deslike + 1 WHERE id = ?", (id,))
     
     conexao.commit()
+    conexao.close()
     return True
+
+def seguir(id,id_user):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute("UPDATE usuarios SET seguidores = seguidores + 1 WHERE id = ?", (id,))
+
+    cursor.execute("UPDATE usuarios SET seguindo = seguindo + 1 WHERE email = ?", (id_user,))
+
+    cursor.execute("UPDATE rastreador SET id_dequemseguevoce = ?")
+
+    conexao.commit()
+    conexao.close()
+    return True
+
+def parar_seguir(id,id_user):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute("UPDATE usuarios SET seguidores = seguidores - 1 WHERE id = ?", (id,))
+
+    cursor.execute("UPDATE usuarios SET seguindo = seguindo - 1 WHERE email = ?", (id_user,))
+
+    conexao.commit()
+    conexao.close()
+    return True
+
+
+
 
 
 

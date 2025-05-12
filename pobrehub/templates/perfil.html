@@ -52,11 +52,24 @@
             <div><strong>{{perfil.seguindo}}</strong><span>Seguindo</span></div>
           </div>
 
-          {% if verificacao[0] == session['email'] %}
+          {% if adm %}
             <a href="/editar_perfil/{{ perfil.id }}">
                 <button class="btn-editar">Editar Perfil</button>
             </a>
+          {% else %}
+            {% if seguindo %}
+              <form method="POST" action="/parar_seguir/{{ perfil.id }}">
+                <input type="hidden" name="id_user" value="{{ session['email'] }}">
+                <button type="submit" class="btn-parar-seguir">Parar de Seguir</button>
+              </form>
+            {% else %}
+              <form method="POST" action="/seguir/{{ perfil.id }}">
+                <input type="hidden" name="id_user" value="{{ session['email'] }}">
+                <button type="submit" class="btn-seguir">Seguir</button>
+              </form>
+            {% endif %}
           {% endif %}
+
       </div>
     </header>
     
