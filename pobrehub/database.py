@@ -109,32 +109,48 @@ def deslikes(id,like):
     conexao.close()
     return True
 
-def seguir(id,id_user):
+def seguir(id_seguido, email_seguidor):
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
-    cursor.execute("UPDATE usuarios SET seguidores = seguidores + 1 WHERE id = ?", (id,))
+    # Pega o ID de quem está seguindo
+    cursor.execute("SELECT id FROM usuarios WHERE email = ?", (email_seguidor,))
+    id_seguidor = cursor.fetchone()[0]
 
-    cursor.execute("UPDATE usuarios SET seguindo = seguindo + 1 WHERE email = ?", (id_user,))
+    # Verifica se já está seguindo
+    cursor.execute("SELECT * FROM rastreador WHERE email_perfil = ? AND id_dequemvocesegue = ?", (email_seguidor, id_seguido))
+    if cursor.fetchone():
+        return False  # Já está seguindo
 
-    cursor.execute("UPDATE rastreador SET id_dequemseguevoce = ?")
+    # Atualiza contadores
+    cursor.execute("UPDATE usuarios SET seguidores = seguidores + 1 WHERE id = ?", (id_seguido,))
+    cursor.execute("UPDATE usuarios SET seguindo = seguindo + 1 WHERE id = ?", (id_seguidor,))
+
+    # Adiciona ao rastreador
+    cursor.execute("INSERT INTO rastreador (email_perfil, id_dequemvocesegue) VALUES (?, ?)", (email_seguidor, id_seguido))
 
     conexao.commit()
     conexao.close()
     return True
 
-def parar_seguir(id,id_user):
+def parar_seguir(id_seguido, email_seguidor):
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
-    cursor.execute("UPDATE usuarios SET seguidores = seguidores - 1 WHERE id = ?", (id,))
+    # Pega o ID de quem está seguindo
+    cursor.execute("SELECT id FROM usuarios WHERE email = ?", (email_seguidor,))
+    id_seguidor = cursor.fetchone()[0]
 
-    cursor.execute("UPDATE usuarios SET seguindo = seguindo - 1 WHERE email = ?", (id_user,))
+    # Remove do rastreador
+    cursor.execute("DELETE FROM rastreador WHERE email_perfil = ? AND id_dequemvocesegue = ?", (email_seguidor, id_seguido))
+
+    # Atualiza contadores
+    cursor.execute("UPDATE usuarios SET seguidores = seguidores - 1 WHERE id = ?", (id_seguido,))
+    cursor.execute("UPDATE usuarios SET seguindo = seguindo - 1 WHERE id = ?", (id_seguidor,))
 
     conexao.commit()
     conexao.close()
     return True
-
 
 
 

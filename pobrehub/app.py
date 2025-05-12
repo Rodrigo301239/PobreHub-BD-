@@ -108,7 +108,8 @@ def perfil(id):
         return "Perfil não encontrado"
 
     adm = session.get('id') == id
-    seguindo = session.get('id') != id  # Só exibe botão de seguir se não for o próprio perfil
+    cursor.execute("SELECT * FROM rastreador WHERE email_perfil = ? AND id_dequemvocesegue = ?", (session['email'], id))
+    seguindo = cursor.fetchone() is not None
 
     if request.method == "POST":
         extra = request.form.get('extra')
@@ -233,7 +234,7 @@ def seguir(id):
     id_user = request.form["id_user"]
     if request.method == "POST":
         if database.seguir(id,id_user) == True:
-            return redirect(url_for('perfil', id=id))
+            return redirect(url_for('perfil', id=id, policia = True))
         else:
             return "ERRO"
         
